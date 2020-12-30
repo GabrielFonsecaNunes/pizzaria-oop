@@ -1,59 +1,52 @@
 package entities;
 
+import java.util.List;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Pizza {
+	public static Map<String, Integer> ingredientesGastos = new HashMap<String, Integer>();
 	
-	static int totalDeIngredientes = 0;
-	
-	private double preco;
-	private String name;
-	public ArrayList<String> lista = new ArrayList<>();
-	
-	public Pizza(){
-	}
-		
-	public void setName(String name) {
-		this.name = name;
+	private List<String> ingredientes = new ArrayList<String>();
+
+	public void adicionaIngrediente(String ingrediente) {
+		this.ingredientes.add(ingrediente); 
+		contabilizaIngrediente(ingrediente);
 	}
 	
-	public int quantidadeDeIngredientePorPizza(ArrayList<String> lista) {
-		return lista.size();
-	}
-	
-	public void adicionaIngridiente(String ingrediente) {
-		this.lista.add(ingrediente);
-		totalDeIngredientes++;
-	}
-	
-	public double getPreco(int x) {
-		if(x <= 2) {
-			this.preco = 15.00;
+	public int getPreco() {
+		int numeroIngredientes = ingredientes.size();
+		if (numeroIngredientes <= 2) {
+			return 15;
+		} else if (numeroIngredientes >= 3 && numeroIngredientes <= 5) {
+			return 20;
 		}
-		else if(x >= 3 && x <= 5) {
-			this.preco = 20.00;
-		}
-		else {
-			this.preco = 23.00;
-		}
-		return preco;
+		return 23;
 	}
 
-	public String toString() {
-		System.out.print("Pizza de " + name);
-		
-		if(lista.size() > 1) {
-			System.out.print(" com ");
-			for(int i = 1; i < lista.size() - 1; i++) {
-				System.out.printf("%s, ", lista.get(i));
-			}
-			System.out.printf("e %s", lista.get(lista.size() - 1));
+	public static void contabilizaIngrediente(String ingrediente) {
+		if (ingredientesGastos.containsKey(ingrediente)) {
+			int numeroDeUsos = ingredientesGastos.get(ingrediente) + 1;
+			ingredientesGastos.put(ingrediente, numeroDeUsos);
+		} else {
+			ingredientesGastos.put(ingrediente, 1);
 		}
-		
-		System.out.printf(", Preço: R$ %.2f", preco);
-		return "";
 	}
 	
+	public List<String> getIngredientes() {
+		return ingredientes;
+	}
 	
-	
+	public boolean temIngredientes() {
+		return this.getIngredientes().size() > 0;
+	}
+
+	public static void imprimeQuantidadeIngredientesGastos() {
+		for (String ingrediente : ingredientesGastos.keySet()) {
+			Integer quantidadeGasta = ingredientesGastos.get(ingrediente);
+			System.out.println("Foram gastos " + quantidadeGasta + " de " + ingrediente);
+		}
+	}
+
 }

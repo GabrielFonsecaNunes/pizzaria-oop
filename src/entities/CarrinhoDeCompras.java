@@ -1,31 +1,28 @@
 package entities;
 
+import java.util.List;
 import java.util.ArrayList;
 
 public class CarrinhoDeCompras {
-	
-	private double total;
-	public ArrayList<Pizza> itensNoCarrinho = new ArrayList<>();
-	
-	public CarrinhoDeCompras() {
-	}
-	
-	public void adicionaItemCarinho(Pizza obj) {
-		if(obj.lista.size() != 0) {
-			itensNoCarrinho.add(obj);
+	private List<Pizza> pizzas = new ArrayList<Pizza>();
+
+	public void adicionaPizza(Pizza pizza) {
+		if (pizza.temIngredientes() == false) {
+			throw new RuntimeException("Nao e possivel adicionar uma pizza sem ingredientes.");
 		}
+		this.pizzas.add(pizza);
 	}
-	
-	public int quantidadeDePizzas(ArrayList<Pizza> listaDePizzas) {
-		return listaDePizzas.size();
-	}
-	
-	public double valorTotal() {
-		for(int i = 0; i < itensNoCarrinho.size(); i++) {
-			this.total += itensNoCarrinho.get(i).getPreco(itensNoCarrinho.get(i).lista.size()); 
+
+	public int valorTotal() {
+		int result = 0;
+		for (int i = 0; i < this.pizzas.size(); i++) {
+			result += this.pizzas.get(i).getPreco();
 		}
-		
-		return total;
+		return result;
 	}
-	
+
+	public void imprime() {
+		System.out.println(
+				"O valor total do carrinho de compras considerando todas as pizzas adicionadas é de " + valorTotal()+" reais");
+	}
 }
