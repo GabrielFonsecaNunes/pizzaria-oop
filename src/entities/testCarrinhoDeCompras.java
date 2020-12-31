@@ -1,17 +1,18 @@
-package Application;
+package entities;
 
-import entities.CarrinhoDeCompras;
-import entities.Pizza;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class Principal {
+import org.junit.Test;
 
-	public static void main(String[] args) {
-		
+public class testCarrinhoDeCompras {
+	
+	@Test
+	public void testVerificaPrecoCarrinho(){
 		
 		Pizza pizza1 = new Pizza();
 		pizza1.adicionaIngrediente("calabresa");
 		pizza1.adicionaIngrediente("cebola");
-		
+
 		Pizza pizza2 = new Pizza();
 		pizza2.adicionaIngrediente("palmito");
 		
@@ -25,9 +26,15 @@ public class Principal {
 		carrinhoDeCompras.adicionaPizza(pizza1);
 		carrinhoDeCompras.adicionaPizza(pizza2);
 		carrinhoDeCompras.adicionaPizza(pizza3);
-		carrinhoDeCompras.imprime();
 		
-		Pizza.imprimeQuantidadeIngredientesGastos();
+		assertEquals(carrinhoDeCompras.valorTotal(), 50);
+	}
+	
+	@Test(expected = RuntimeException.class) // É esperado uma RuntimeException
+	public void testVerificaPizzaSemIngrediente() {
+		Pizza p = new Pizza(); // Pizza sem ingrediente
+		CarrinhoDeCompras carrinho = new CarrinhoDeCompras();
+		carrinho.adicionaPizza(p); // Adiciona pizza sem ingredientes no Carrinho
 	}
 
 }

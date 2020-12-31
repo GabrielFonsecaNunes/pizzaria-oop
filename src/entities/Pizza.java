@@ -9,6 +9,9 @@ public class Pizza {
 	public static Map<String, Integer> ingredientesGastos = new HashMap<String, Integer>();
 	
 	private List<String> ingredientes = new ArrayList<String>();
+	
+	public Pizza() {
+	}
 
 	public void adicionaIngrediente(String ingrediente) {
 		this.ingredientes.add(ingrediente); 
@@ -48,5 +51,8 @@ public class Pizza {
 			System.out.println("Foram gastos " + quantidadeGasta + " de " + ingrediente);
 		}
 	}
-
+	
+	public static void zeraRegristros(){
+		ingredientesGastos.clear();
+	}
 }
